@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Секретная страница 🎁</title>
+    <style>
+      :root {
+        --bg1: #070910;
+        --bg2: #0b1026;
+        --card: rgba(255, 255, 255, 0.08);
+        --stroke: rgba(255, 255, 255, 0.14);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.68);
+        --accent: #60a5fa;
+        --accent2: #a78bfa;
+        --good: #34d399;
+        --bad: #fb7185;
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        --radius: 18px;
+        --font:
+          ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--text);
+        overflow-x: hidden;
+        background:
+          radial-gradient(
+            1200px 600px at 20% 15%,
+            rgba(96, 165, 250, 0.18),
+            transparent 55%
+          ),
+          radial-gradient(
+            1000px 700px at 85% 20%,
+            rgba(167, 139, 250, 0.16),
+            transparent 55%
+          ),
+          radial-gradient(
+            1200px 900px at 50% 110%,
+            rgba(52, 211, 153, 0.1),
+            transparent 55%
+          ),
+          linear-gradient(180deg, var(--bg1), var(--bg2));
+      }
+
+      /* animated fog */
+      .fog {
+        position: fixed;
+        inset: -30%;
+        background:
+          radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.06),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 70% 40%,
+            rgba(255, 255, 255, 0.04),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 45% 70%,
+            rgba(255, 255, 255, 0.05),
+            transparent 60%
+          );
+        filter: blur(18px);
+        animation: drift 18s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 0;
+      }
+      @keyframes drift {
+        from {
+          transform: translate3d(-2%, -1%, 0) scale(1.02);
+        }
+        to {
+          transform: translate3d(2%, 1.5%, 0) scale(1.05);
+        }
+      }
+
+      /* particle canvas */
+      canvas#stars {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.55;
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 18px 60px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 260px;
+      }
+      .logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.9),
+          rgba(167, 139, 250, 0.9)
+        );
+        box-shadow: 0 12px 30px rgba(96, 165, 250, 0.18);
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .title h1 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+      }
+      .title p {
+        margin: 2px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid var(--stroke);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.18s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .btn:active {
+        transform: translateY(0px) scale(0.99);
+      }
+      .btn.primary {
+        border-color: rgba(96, 165, 250, 0.45);
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.22),
+          rgba(167, 139, 250, 0.18)
+        );
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      @media (max-width: 920px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+        .brand {
+          min-width: auto;
+        }
+      }
+
+      .card {
+        border: 1px solid var(--stroke);
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      }
+
+      .hero {
+        padding: 18px;
+        position: relative;
+        min-height: 270px;
+      }
+
+      .meepo {
+        position: absolute;
+        right: -10px;
+        bottom: -14px;
+        width: 220px;
+        height: auto;
+        opacity: 0.9;
+        filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+        transform: rotate(-2deg);
+        pointer-events: none;
+      }
+
+      .hero h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .hero .big {
+        font-size: 32px;
+        margin: 0 0 10px;
+        font-weight: 900;
+        letter-spacing: 0.2px;
+        line-height: 1.06;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(96, 165, 250, 0.95),
+          rgba(167, 139, 250, 0.95)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero .sub {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+        max-width: 30ch;
+      }
+      .pillrow {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        max-width: 36ch;
+      }
+      .pill {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 1px solid var(--stroke);
+        flex-wrap: wrap;
+      }
+      .tab {
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.16s ease;
+        user-select: none;
+      }
+      .tab:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .tab.active {
+        border-color: rgba(96, 165, 250, 0.45);
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.18),
+          rgba(167, 139, 250, 0.12)
+        );
+      }
+
+      .panel {
+        display: none;
+        padding: 16px;
+        animation: pop 0.18s ease;
+      }
+      .panel.active {
+        display: block;
+      }
+      @keyframes pop {
+        from {
+          transform: translateY(4px);
+          opacity: 0.65;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 520px) {
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .box {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.14);
+        border-radius: 16px;
+        padding: 12px;
+      }
+      .box h3 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      .box p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+        font-size: 13px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 9;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(10, 12, 22, 0.72);
+        backdrop-filter: blur(10px);
+        padding: 12px 14px;
+        border-radius: 14px;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+        max-width: 360px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: 0.22s ease;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      .toast b {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .toast small {
+        color: var(--muted);
+      }
+
+      /* Mini-game */
+      .gameRow {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+      .board {
+        width: 300px;
+        height: 300px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(96, 165, 250, 0.1),
+          rgba(0, 0, 0, 0.22)
+        );
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        overflow: hidden;
+        position: relative;
+      }
+      .cell {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.12s ease;
+        font-weight: 900;
+        font-size: 28px;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      .cell:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .cell.good {
+        background: rgba(52, 211, 153, 0.1);
+        border-color: rgba(52, 211, 153, 0.25);
+      }
+      .cell.bad {
+        background: rgba(251, 113, 133, 0.1);
+        border-color: rgba(251, 113, 133, 0.25);
+      }
+      .hud {
+        flex: 1;
+        min-width: 240px;
+      }
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        margin-bottom: 10px;
+      }
+      .kbd {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(0, 0, 0, 0.22);
+      }
+
+      .secret {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      input[type="text"] {
+        flex: 1;
+        min-width: 180px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.18);
+        color: var(--text);
+        outline: none;
+      }
+
+      .footer {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+        opacity: 0.9;
+      }
+
+      /* subtle glitch text */
+      .glitch {
+        position: relative;
+        display: inline-block;
+      }
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        overflow: hidden;
+        opacity: 0.28;
+        pointer-events: none;
+      }
+      .glitch::before {
+        transform: translate(1px, 0);
+        clip-path: inset(0 0 60% 0);
+      }
+      .glitch::after {
+        transform: translate(-1px, 0);
+        clip-path: inset(60% 0 0 0);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="fog"></div>
+    <canvas id="stars"></canvas>
+
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <div class="logo">🎮</div>
+          <div class="title">
+            <h1>Секретная страница</h1>
+            <p>уровень доступа: «друг детектед»</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn primary" id="btnConfetti">
+            ✨ Спамить конфетти
+          </button>
+          <button class="btn" id="btnSound">🔊 Звук: выкл</button>
+          <button class="btn" id="btnCopy">📋 Скопировать тост</button>
+        </div>
+      </header>
+
+      <main>
+        <!-- LEFT -->
+        <section class="card">
+          <div class="hero">
+            <div class="big glitch" data-text="С ДНЁМ РОЖДЕНИЯ!">
+              С ДНЁМ РОЖДЕНИЯ!
+            </div>
+            <h2 id="friendName">[Макс]</h2>
+            <p class="sub">
+              Сегодня ты — как Миппо: один, но всегда с командой. И пусть жизнь
+              даёт только хорошие руны 💎
+            </p>
+
+            <div class="pillrow">
+              <span class="pill">+карма</span>
+              <span class="pill">+мемы</span>
+              <span class="pill">+MMR по жизни</span>
+              <span class="pill">без лоу-приорити</span>
+            </div>
+
+            <img
+              class="meepo"
+              src="assets/meepo.png"
+              alt="Meepo"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+
+          <div
+            class="panel active"
+            style="display: block; padding: 0 16px 16px"
+          >
+            <div class="box">
+              <h3>🎁 Твоё «задание на др»</h3>
+              <p>
+                Открой вкладки справа. Там поздравление, пасхалки, мини-игра и
+                секретный код. Если пройдёшь — получишь
+                <b>финальную фразу</b> для следующей папки 😉
+              </p>
+            </div>
+            <div class="footer">
+              P.S. Нажми клавиши <span class="kbd">M</span>
+              <span class="kbd">E</span> <span class="kbd">E</span>
+              <span class="kbd">P</span> <span class="kbd">O</span> по очереди
+              😈
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card">
+          <div class="tabs">
+            <div class="tab active" data-tab="wish">Поздравление</div>
+            <div class="tab" data-tab="series">Сериальные отсылки</div>
+            <div class="tab" data-tab="game">Мини-игра</div>
+            <div class="tab" data-tab="secret">Секретный код</div>
+          </div>
+
+          <div class="panel active" id="wish">
+            <div class="grid2">
+              <div class="box">
+                <h3>🧠 Ум</h3>
+                <p>
+                  Пусть мозг работает как идеальный драфт: быстро, точно и без
+                  “почему мы пикнули это?”
+                </p>
+              </div>
+              <div class="box">
+                <h3>❤️ Здоровье</h3>
+                <p>
+                  Чтобы HP всегда было фулл, а реген приходил вовремя — без
+                  токсичных дебаффов.
+                </p>
+              </div>
+              <div class="box">
+                <h3>💰 Удача</h3>
+                <p>
+                  Пусть лут в жизни падает легендарный, а “рандом” всегда на
+                  твоей стороне.
+                </p>
+              </div>
+              <div class="box">
+                <h3>🔥 Драйв</h3>
+                <p>
+                  Чтобы каждый год был как лучший сезон сериала — без провальных
+                  серий.
+                </p>
+              </div>
+            </div>
+            <div style="margin-top: 12px" class="box">
+              <h3>Финальный тост</h3>
+              <p id="toastText">
+                За тебя! Пусть в жизни будет меньше “гг вп” и больше “изи катка”
+                — и чтобы рядом всегда были свои люди. 🥂
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" id="series">
+            <div class="box">
+              <h3>🎬 Режим «Сериал-машина»</h3>
+              <p>
+                Тут спрятаны отсылки к любимому:
+                <b>Dexter</b>, <b>Stranger Things</b>, <b>Game of Thrones</b>,
+                <b>The Sopranos</b>. Найди 4 пасхалки — и ты получишь подсказку.
+              </p>
+            </div>
+
+            <div class="grid2" style="margin-top: 12px">
+              <div class="box" id="egg1">
+                <h3>🩸 “Tonight’s the night…”</h3>
+                <p>Если понял — жми сюда. (осторожно, «тёмный пассажир»)</p>
+              </div>
+              <div class="box" id="egg2">
+                <h3>🧇 “Дайте уже вафли…”</h3>
+                <p>Ты знаешь, о ком речь. Нажми.</p>
+              </div>
+              <div class="box" id="egg3">
+                <h3>🐉 “Зима близко”</h3>
+                <p>И подарки тоже. Жми.</p>
+              </div>
+              <div class="box" id="egg4">
+                <h3>🍝 “Just when I thought I was out…”</h3>
+                <p>…они затянули обратно. Нажми.</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 12px" class="box">
+              <h3>Подсказка</h3>
+              <p id="eggHint">Найди все 4 пасхалки, чтобы увидеть подсказку…</p>
+            </div>
+          </div>
+
+          <div class="panel" id="game">
+            <div class="box">
+              <h3>🎯 Мини-игра: «Найди настоящего Миппо»</h3>
+              <p>
+                В сетке 3×3 спрятан “настоящий” Миппо. У тебя 6 попыток.
+                Победишь — получишь часть секретного кода.
+              </p>
+            </div>
+
+            <div class="gameRow" style="margin-top: 12px">
+              <div class="board" id="board"></div>
+              <div class="hud">
+                <div class="stat">
+                  <span>Попыток осталось</span><b id="tries">6</b>
+                </div>
+                <div class="stat">
+                  <span>Статус</span><b id="status">Ищи!</b>
+                </div>
+                <div class="stat">
+                  <span>Награда</span><b id="reward">???</b>
+                </div>
+                <button class="btn primary" id="btnReset">
+                  🔁 Сбросить игру
+                </button>
+                <p
+                  style="
+                    color: var(--muted);
+                    margin: 10px 2px 0;
+                    font-size: 13px;
+                    line-height: 1.45;
+                  "
+                >
+                  Подсказка: настоящий Миппо любит
+                  <span class="kbd">копаться</span> не только в земле, но и в
+                  секретах 😄
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" id="secret">
+            <div class="box">
+              <h3>🔐 Финальная дверь</h3>
+              <p>
+                Введи код, который ты соберёшь из пасхалок + мини-игры + клавиш
+                MEEPO. Если всё верно — получишь финальную фразу для следующей
+                папки.
+              </p>
+            </div>
+
+            <div class="secret">
+              <input
+                id="codeInput"
+                type="text"
+                placeholder="введи код…"
+                autocomplete="off"
+              />
+              <button class="btn primary" id="btnCheck">Проверить</button>
+            </div>
+
+            <div style="margin-top: 12px" class="box">
+              <h3>Результат</h3>
+              <p id="finalResult" style="margin: 0; color: var(--muted)">
+                Жду код…
+              </p>
+            </div>
+
+            <div style="margin-top: 12px" class="box">
+              <h3>Если хочешь усложнить</h3>
+              <p>
+                Этот код можно сделать “ключом” к следующей папке: назови
+                следующую папку ровно этим кодом 😉
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast">
+      <b id="toastTitle">Готово</b>
+      <small id="toastMsg">…</small>
+    </div>
+
+    <audio id="bgm" preload="auto" loop>
+      <source src="assets/bg.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      // ====== CONFIG ======
+      const FRIEND_NAME = "Макс (сірун)";
+      // Итоговая фраза, которую он должен получить (для следующей папки / следующей загадки)
+      const NEXT_FOLDER_PHRASE = "NEXT: SIRUN-1MMR-NOBOOST"; // поменяй как хочешь
+
+      // Составные части кода (будут открываться по ходу)
+      const PART_FROM_EGGS = "DEXST"; // после 4 пасхалок
+      const PART_FROM_GAME = "RUNE"; // после победы в мини-игре
+      const PART_FROM_KEYS = "MEEPO"; // после ввода последовательности клавиш
+      const FINAL_CODE = (
+        PART_FROM_EGGS +
+        "-" +
+        PART_FROM_GAME +
+        "-" +
+        PART_FROM_KEYS
+      ).toUpperCase();
+
+      // ====== Helpers ======
+      const $ = (q, el = document) => el.querySelector(q);
+      const $$ = (q, el = document) => Array.from(el.querySelectorAll(q));
+
+      function toast(title, msg) {
+        $("#toastTitle").textContent = title;
+        $("#toastMsg").textContent = msg;
+        const t = $("#toast");
+        t.classList.add("show");
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(
+          () => t.classList.remove("show"),
+          2400,
+        );
+      }
+
+      // ====== Init name ======
+      $("#friendName").textContent = FRIEND_NAME;
+
+      // ====== Tabs ======
+      $$(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          $$(".tab").forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          const id = tab.dataset.tab;
+          $$(".panel").forEach((p) => p.classList.remove("active"));
+          $("#" + id).classList.add("active");
+        });
+      });
+
+      // ====== Copy toast ======
+      $("#btnCopy").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(
+            $("#toastText").textContent.trim(),
+          );
+          toast("Скопировано ✅", "Теперь можно торжественно произнести!");
+        } catch {
+          toast(
+            "Не вышло 😅",
+            "Браузер запретил копирование. Скопируй вручную.",
+          );
+        }
+      });
+
+      // ====== Sound toggle ======
+      let soundOn = false;
+      $("#btnSound").addEventListener("click", async () => {
+        const a = $("#bgm");
+        try {
+          if (!soundOn) {
+            await a.play();
+            soundOn = true;
+            $("#btnSound").textContent = "🔊 Звук: вкл";
+            toast(
+              "Музыка 🎵",
+              "Если не играет — браузер мог запретить автозапуск.",
+            );
+          } else {
+            a.pause();
+            soundOn = false;
+            $("#btnSound").textContent = "🔊 Звук: выкл";
+            toast("Тишина 🤫", "Ок, без музыки.");
+          }
+        } catch {
+          toast(
+            "Автозапуск запрещён",
+            "Нажми ещё раз или включи звук после клика по странице.",
+          );
+        }
+      });
+
+      // ====== Confetti (simple) ======
+      function confettiBurst() {
+        const n = 120;
+        for (let i = 0; i < n; i++) {
+          const s = document.createElement("span");
+          s.style.position = "fixed";
+          s.style.left = Math.random() * 100 + "vw";
+          s.style.top = "-10px";
+          s.style.width = "8px";
+          s.style.height = "14px";
+          s.style.borderRadius = "2px";
+          s.style.background = `hsla(${Math.random() * 360}, 90%, 70%, .95)`;
+          s.style.zIndex = 10;
+          s.style.transform = `rotate(${Math.random() * 180}deg)`;
+          s.style.boxShadow = "0 10px 30px rgba(0,0,0,.25)";
+          document.body.appendChild(s);
+
+          const fall = 140 + Math.random() * 220;
+          const drift = (Math.random() * 2 - 1) * 120;
+          const dur = 1300 + Math.random() * 900;
+
+          s.animate(
+            [
+              { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
+              {
+                transform: `translate(${drift}px, ${fall}vh) rotate(${360 + Math.random() * 360}deg)`,
+                opacity: 0.95,
+              },
+            ],
+            { duration: dur, easing: "cubic-bezier(.2,.7,.2,1)" },
+          );
+
+          setTimeout(() => s.remove(), dur + 50);
+        }
+      }
+      $("#btnConfetti").addEventListener("click", () => {
+        confettiBurst();
+        toast("Бум! ✨", "Конфетти в твою честь.");
+      });
+
+      // ====== Eggs ======
+      const eggs = { egg1: false, egg2: false, egg3: false, egg4: false };
+      const eggLines = {
+        egg1: "Dexter: минус враги, плюс стиль 😈",
+        egg2: "Stranger Things: вафли решают 🍴",
+        egg3: "GoT: корона — это ответственность 👑",
+        egg4: "Sopranos: семья — это всё 🤝",
+      };
+      Object.keys(eggs).forEach((id) => {
+        $("#" + id).style.cursor = "pointer";
+        $("#" + id).addEventListener("click", () => {
+          eggs[id] = true;
+          toast("Пасхалка найдена ✅", eggLines[id]);
+          $("#" + id).style.borderColor = "rgba(52,211,153,.35)";
+          $("#" + id).style.background = "rgba(52,211,153,.08)";
+          const done = Object.values(eggs).every(Boolean);
+          if (done) {
+            $("#eggHint").innerHTML =
+              `Все пасхалки найдены! Часть кода: <b>${PART_FROM_EGGS}</b>`;
+            toast("Комбо! 🔥", `Ты открыл часть кода: ${PART_FROM_EGGS}`);
+            maybeUnlockFinal();
+          } else {
+            const count = Object.values(eggs).filter(Boolean).length;
+            $("#eggHint").textContent = `Найдено: ${count}/4. Продолжай охоту…`;
+          }
+        });
+      });
+
+      // ====== Mini-game ======
+      const board = $("#board");
+      let target = 0;
+      let triesLeft = 6;
+      let gameWon = false;
+
+      function buildBoard() {
+        board.innerHTML = "";
+        for (let i = 0; i < 9; i++) {
+          const c = document.createElement("div");
+          c.className = "cell";
+          c.dataset.i = i;
+          c.textContent = "❓";
+          c.addEventListener("click", onPick);
+          board.appendChild(c);
+        }
+      }
+
+      function resetGame() {
+        target = Math.floor(Math.random() * 9);
+        triesLeft = 6;
+        gameWon = false;
+        $("#tries").textContent = triesLeft;
+        $("#status").textContent = "Ищи!";
+        $("#reward").textContent = "???";
+        buildBoard();
+      }
+
+      function onPick(e) {
+        if (gameWon) return;
+        const cell = e.currentTarget;
+        const i = Number(cell.dataset.i);
+        if (cell.classList.contains("good") || cell.classList.contains("bad"))
+          return;
+
+        if (i === target) {
+          cell.textContent = "🧙‍♂️";
+          cell.classList.add("good");
+          $("#status").textContent = "Победа!";
+          $("#reward").innerHTML = `<b>${PART_FROM_GAME}</b>`;
+          toast("Победа 🏆", `Часть кода: ${PART_FROM_GAME}`);
+          gameWon = true;
+          maybeUnlockFinal();
+          confettiBurst();
+        } else {
+          cell.textContent = "🪨";
+          cell.classList.add("bad");
+          triesLeft--;
+          $("#tries").textContent = triesLeft;
+          $("#status").textContent =
+            triesLeft > 0 ? "Мимо. Ещё попытка!" : "Проигрыш :(";
+          if (triesLeft <= 0) {
+            toast("GG 😅", "Сбрось игру и попробуй ещё раз.");
+          }
+        }
+      }
+
+      $("#btnReset").addEventListener("click", resetGame);
+      resetGame();
+
+      // ====== Key sequence MEEPO ======
+      const seq = ["m", "e", "e", "p", "o"];
+      let idx = 0;
+      let keysUnlocked = false;
+
+      window.addEventListener("keydown", (ev) => {
+        const k = (ev.key || "").toLowerCase();
+        if (k === seq[idx]) {
+          idx++;
+          if (idx === seq.length) {
+            idx = 0;
+            keysUnlocked = true;
+            toast("Секрет найден 👀", `Часть кода: ${PART_FROM_KEYS}`);
+            maybeUnlockFinal();
+          }
+        } else {
+          idx = 0;
+        }
+      });
+
+      // ====== Secret check ======
+      $("#btnCheck").addEventListener("click", () => {
+        const v = ($("#codeInput").value || "").trim().toUpperCase();
+        if (!v) {
+          $("#finalResult").textContent = "Введи код 🙂";
+          return;
+        }
+        if (v === FINAL_CODE) {
+          $("#finalResult").innerHTML =
+            `✅ Верно! Финальная фраза для следующей папки: <b>${NEXT_FOLDER_PHRASE}</b>`;
+          confettiBurst();
+          toast("Дверь открыта 🔓", "Финальная фраза готова!");
+        } else {
+          $("#finalResult").textContent =
+            "❌ Не то. Собери код из всех частей.";
+          toast("Почти…", "Проверь: пасхалки + игра + клавиши MEEPO.");
+        }
+      });
+
+      function maybeUnlockFinal() {
+        // Просто подсказка, когда всё собрано
+        const eggsDone = Object.values(eggs).every(Boolean);
+        if (eggsDone && gameWon && keysUnlocked) {
+          toast("Код собран ✅", `Теперь введи: ${FINAL_CODE}`);
+        }
+      }
+
+      // ====== Stars canvas ======
+      const canvas = $("#stars");
+      const ctx = canvas.getContext("2d");
+      let W = 0,
+        H = 0,
+        stars = [];
+      function resize() {
+        W = canvas.width = window.innerWidth * devicePixelRatio;
+        H = canvas.height = window.innerHeight * devicePixelRatio;
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+        stars = Array.from({ length: 130 }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: (Math.random() * 1.8 + 0.4) * devicePixelRatio,
+          v: (Math.random() * 0.25 + 0.08) * devicePixelRatio,
+          a: Math.random() * 0.8 + 0.15,
+        }));
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+        for (const s of stars) {
+          s.y += s.v;
+          s.x += Math.sin(s.y / 1200) * 0.35;
+          if (s.y > H + 10) {
+            s.y = -10;
+            s.x = Math.random() * W;
+          }
+          ctx.globalAlpha = s.a;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = "white";
+          ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+
+      // Small welcome
+      setTimeout(
+        () =>
+          toast(
+            "Загрузка завершена",
+            "Открой вкладки справа — там всё самое интересное.",
+          ),
+        600,
+      );
+    </script>
+  </body>
+</html>
