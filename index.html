@@ -4,23 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Секретная страница 🎁</title>
+
     <style>
       :root {
-        --bg1: #070910;
-        --bg2: #0b1026;
-        --card: rgba(255, 255, 255, 0.08);
-        --stroke: rgba(255, 255, 255, 0.14);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.68);
-        --accent: #60a5fa;
-        --accent2: #a78bfa;
-        --good: #34d399;
-        --bad: #fb7185;
-        --shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
-        --radius: 18px;
+        --bg1: #050506;
+        --bg2: #0a0a0d;
+
+        --card: rgba(8, 8, 10, 0.88);
+        --stroke: rgba(255, 60, 60, 0.22);
+
+        --text: #e7e7ea;
+        --muted: #9a9aa3;
+
+        --accent: #ff3b3b;
+        --accent2: #b91c1c;
+
+        --shadow: 0 22px 70px rgba(0, 0, 0, 0.85);
+        --radius: 10px;
+
         --font:
-          ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+          ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       }
 
       * {
@@ -30,54 +33,73 @@
       body {
         height: 100%;
       }
+
       body {
         margin: 0;
         font-family: var(--font);
         color: var(--text);
         overflow-x: hidden;
+
+        /* DOTA-ish background */
         background:
           radial-gradient(
-            1200px 600px at 20% 15%,
-            rgba(96, 165, 250, 0.18),
-            transparent 55%
+            900px 500px at 70% 18%,
+            rgba(255, 59, 59, 0.16),
+            transparent 60%
           ),
           radial-gradient(
-            1000px 700px at 85% 20%,
-            rgba(167, 139, 250, 0.16),
-            transparent 55%
-          ),
-          radial-gradient(
-            1200px 900px at 50% 110%,
-            rgba(52, 211, 153, 0.1),
-            transparent 55%
+            900px 600px at 25% 24%,
+            rgba(185, 28, 28, 0.12),
+            transparent 60%
           ),
           linear-gradient(180deg, var(--bg1), var(--bg2));
       }
 
-      /* animated fog */
+      /* HUD grid overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.035) 0 1px,
+            transparent 1px 44px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.02) 0 1px,
+            transparent 1px 44px
+          );
+        opacity: 0.25;
+        pointer-events: none;
+        z-index: 0;
+      }
+
       .fog {
         position: fixed;
         inset: -30%;
         background:
           radial-gradient(
             circle at 20% 30%,
-            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.045),
             transparent 55%
           ),
           radial-gradient(
             circle at 70% 40%,
-            rgba(255, 255, 255, 0.04),
+            rgba(255, 255, 255, 0.03),
             transparent 55%
           ),
           radial-gradient(
             circle at 45% 70%,
-            rgba(255, 255, 255, 0.05),
+            rgba(255, 255, 255, 0.035),
             transparent 60%
           );
         filter: blur(18px);
         animation: drift 18s ease-in-out infinite alternate;
         pointer-events: none;
         z-index: 0;
+        opacity: 0.55;
       }
       @keyframes drift {
         from {
@@ -88,13 +110,31 @@
         }
       }
 
-      /* particle canvas */
       canvas#stars {
         position: fixed;
         inset: 0;
         z-index: 0;
         pointer-events: none;
-        opacity: 0.55;
+        opacity: 0.35;
+      }
+
+      .vignette {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            1200px 700px at 50% 30%,
+            transparent 35%,
+            rgba(0, 0, 0, 0.72) 78%
+          ),
+          radial-gradient(
+            900px 500px at 10% 90%,
+            rgba(0, 0, 0, 0.75),
+            transparent 60%
+          );
+        opacity: 0.9;
       }
 
       .wrap {
@@ -122,13 +162,14 @@
       .logo {
         width: 42px;
         height: 42px;
-        border-radius: 12px;
+        border-radius: 10px;
         background: linear-gradient(
-          135deg,
-          rgba(96, 165, 250, 0.9),
-          rgba(167, 139, 250, 0.9)
+          180deg,
+          rgba(255, 59, 59, 0.35),
+          rgba(0, 0, 0, 0.35)
         );
-        box-shadow: 0 12px 30px rgba(96, 165, 250, 0.18);
+        border: 1px solid rgba(255, 60, 60, 0.22);
+        box-shadow: 0 0 18px rgba(255, 0, 0, 0.18);
         display: grid;
         place-items: center;
         font-weight: 900;
@@ -155,39 +196,42 @@
 
       .btn {
         appearance: none;
-        border: 1px solid var(--stroke);
-        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 60, 60, 0.2);
+        background: rgba(0, 0, 0, 0.3);
         color: var(--text);
         padding: 10px 12px;
-        border-radius: 12px;
+        border-radius: 10px;
         cursor: pointer;
-        transition: 0.18s ease;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-        font-weight: 600;
-        display: flex;
+        transition: 0.15s ease;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        font-weight: 800;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
         user-select: none;
       }
       .btn:hover {
         transform: translateY(-1px);
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.42);
+        border-color: rgba(255, 60, 60, 0.32);
       }
       .btn:active {
         transform: translateY(0px) scale(0.99);
       }
+
       .btn.primary {
-        border-color: rgba(96, 165, 250, 0.45);
+        border-color: rgba(255, 60, 60, 0.35);
         background: linear-gradient(
-          135deg,
-          rgba(96, 165, 250, 0.22),
-          rgba(167, 139, 250, 0.18)
+          180deg,
+          rgba(255, 59, 59, 0.22),
+          rgba(0, 0, 0, 0.35)
         );
+        box-shadow: 0 0 18px rgba(255, 0, 0, 0.18);
       }
 
       main {
         display: grid;
-        grid-template-columns: 360px 1fr;
+        grid-template-columns: 380px 1fr;
         gap: 16px;
         align-items: start;
       }
@@ -201,108 +245,96 @@
       }
 
       .card {
-        border: 1px solid var(--stroke);
+        border: 1px solid rgba(255, 60, 60, 0.18);
         background: var(--card);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
         overflow: hidden;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(6px);
       }
 
-      .hero {
-        padding: 18px;
+      /* Left splash like Dota menu */
+      .splash {
         position: relative;
-        min-height: 270px;
+        height: 340px;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.16);
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.86)),
+          url("assets/dota-splash.jpg");
+        background-size: cover;
+        background-position: center;
       }
-
-      .meepo {
+      .splash::after {
+        content: "";
         position: absolute;
-        right: -10px;
-        bottom: -14px;
-        width: 220px;
-        height: auto;
-        opacity: 0.9;
-        filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
-        transform: rotate(-2deg);
+        inset: 0;
+        background:
+          radial-gradient(
+            700px 350px at 25% 35%,
+            rgba(255, 60, 60, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 350px at 80% 20%,
+            rgba(185, 28, 28, 0.18),
+            transparent 60%
+          );
         pointer-events: none;
       }
 
-      .hero h2 {
-        margin: 0 0 8px;
-        font-size: 18px;
-      }
-      .hero .big {
-        font-size: 32px;
-        margin: 0 0 10px;
-        font-weight: 900;
-        letter-spacing: 0.2px;
-        line-height: 1.06;
-        background: linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.95),
-          rgba(96, 165, 250, 0.95),
-          rgba(167, 139, 250, 0.95)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .hero .sub {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.5;
-        max-width: 30ch;
-      }
-      .pillrow {
-        margin-top: 12px;
+      .splashTop {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        top: 14px;
         display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        max-width: 36ch;
-      }
-      .pill {
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.06);
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.82);
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
       }
 
-      .tabs {
+      .rankPill {
+        border: 1px solid rgba(255, 60, 60, 0.25);
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.82);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .splashBottom {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 14px;
+      }
+      .splashBottom h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+      }
+      .splashBottom p {
+        margin: 6px 0 0;
+        color: rgba(255, 255, 255, 0.75);
+        max-width: 44ch;
+        line-height: 1.35;
+        font-size: 13px;
+      }
+
+      .smallBtnRow {
+        margin-top: 10px;
         display: flex;
-        gap: 8px;
-        padding: 12px;
-        border-bottom: 1px solid var(--stroke);
+        gap: 10px;
         flex-wrap: wrap;
-      }
-      .tab {
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid transparent;
-        background: rgba(255, 255, 255, 0.04);
-        color: rgba(255, 255, 255, 0.86);
-        cursor: pointer;
-        font-weight: 700;
-        transition: 0.16s ease;
-        user-select: none;
-      }
-      .tab:hover {
-        background: rgba(255, 255, 255, 0.06);
-      }
-      .tab.active {
-        border-color: rgba(96, 165, 250, 0.45);
-        background: linear-gradient(
-          135deg,
-          rgba(96, 165, 250, 0.18),
-          rgba(167, 139, 250, 0.12)
-        );
       }
 
       .panel {
         display: none;
         padding: 16px;
-        animation: pop 0.18s ease;
+        animation: pop 0.16s ease;
       }
       .panel.active {
         display: block;
@@ -318,6 +350,73 @@
         }
       }
 
+      .tabs {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.16);
+        flex-wrap: wrap;
+      }
+      .tab {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        background: rgba(0, 0, 0, 0.22);
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        font-weight: 900;
+        transition: 0.14s ease;
+        user-select: none;
+      }
+      .tab:hover {
+        background: rgba(0, 0, 0, 0.34);
+      }
+      .tab.active {
+        border-color: rgba(255, 60, 60, 0.32);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 59, 59, 0.2),
+          rgba(0, 0, 0, 0.34)
+        );
+        box-shadow: 0 0 14px rgba(255, 0, 0, 0.18);
+      }
+
+      .box {
+        border: 1px solid rgba(255, 60, 60, 0.14);
+        background: rgba(0, 0, 0, 0.24);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .box h3 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      .detective-mode {
+        cursor: none;
+      }
+
+      .flashlight {
+        position: fixed;
+        width: 220px;
+        height: 220px;
+        pointer-events: none;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(0, 0, 0, 0.85) 70%
+        );
+        mix-blend-mode: screen;
+        z-index: 999;
+      }
+      .box p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+        font-size: 13px;
+      }
+
       .grid2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -329,22 +428,64 @@
         }
       }
 
-      .box {
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(0, 0, 0, 0.14);
-        border-radius: 16px;
-        padding: 12px;
+      .gameRow {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: flex-start;
       }
-      .box h3 {
-        margin: 0 0 6px;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.92);
+      .hud {
+        flex: 1;
+        min-width: 240px;
       }
-      .box p {
-        margin: 0;
+
+      .stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.22);
+        border: 1px solid rgba(255, 60, 60, 0.14);
+        margin-bottom: 10px;
+      }
+
+      .kbd {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 60, 60, 0.18);
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .secret {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      input[type="text"] {
+        flex: 1;
+        min-width: 180px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 60, 60, 0.18);
+        background: rgba(0, 0, 0, 0.26);
+        color: var(--text);
+        outline: none;
+      }
+
+      .footer {
+        margin-top: 14px;
         color: var(--muted);
-        line-height: 1.45;
-        font-size: 13px;
+        font-size: 12px;
+        text-align: center;
+        opacity: 0.9;
       }
 
       .toast {
@@ -352,12 +493,12 @@
         right: 16px;
         bottom: 16px;
         z-index: 9;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(10, 12, 22, 0.72);
+        border: 1px solid rgba(255, 60, 60, 0.18);
+        background: rgba(0, 0, 0, 0.55);
         backdrop-filter: blur(10px);
         padding: 12px 14px;
-        border-radius: 14px;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+        border-radius: 12px;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.65);
         max-width: 360px;
         opacity: 0;
         transform: translateY(10px);
@@ -376,133 +517,241 @@
         color: var(--muted);
       }
 
-      /* Mini-game */
-      .gameRow {
+      /* Intro terminal */
+      #intro {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
         display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: flex-start;
-      }
-      .board {
-        width: 300px;
-        height: 300px;
-        border-radius: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: radial-gradient(
-          circle at 30% 30%,
-          rgba(96, 165, 250, 0.1),
-          rgba(0, 0, 0, 0.22)
-        );
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        overflow: hidden;
-        position: relative;
-      }
-      .cell {
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-        user-select: none;
-        transition: 0.12s ease;
-        font-weight: 900;
-        font-size: 28px;
-        color: rgba(255, 255, 255, 0.92);
-      }
-      .cell:hover {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      .cell.good {
-        background: rgba(52, 211, 153, 0.1);
-        border-color: rgba(52, 211, 153, 0.25);
-      }
-      .cell.bad {
-        background: rgba(251, 113, 133, 0.1);
-        border-color: rgba(251, 113, 133, 0.25);
-      }
-      .hud {
-        flex: 1;
-        min-width: 240px;
-      }
-      .stat {
-        display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 10px 12px;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        margin-bottom: 10px;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.82);
+        backdrop-filter: blur(10px);
       }
-      .kbd {
-        font-family:
-          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", "Courier New", monospace;
-        font-size: 12px;
-        padding: 2px 8px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        color: rgba(255, 255, 255, 0.85);
-        background: rgba(0, 0, 0, 0.22);
-      }
-
-      .secret {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-top: 10px;
-      }
-      input[type="text"] {
-        flex: 1;
-        min-width: 180px;
-        padding: 10px 12px;
-        border-radius: 12px;
+      #introCard {
+        width: min(720px, 92vw);
         border: 1px solid rgba(255, 255, 255, 0.16);
-        background: rgba(0, 0, 0, 0.18);
-        color: var(--text);
-        outline: none;
+        background: rgba(10, 12, 22, 0.72);
+        border-radius: 18px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.65);
+        padding: 18px;
+      }
+      #introLog {
+        margin: 12px 0 14px;
+        padding: 12px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.9);
+        height: 220px;
+        overflow: auto;
+        font:
+          12px/1.45 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Monaco,
+          Consolas,
+          "Liberation Mono",
+          "Courier New",
+          monospace;
+        white-space: pre-wrap;
+      }
+      /* ====== Fancy: CRT + chroma ====== */
+      :root {
+        --crt: 0.22; /* сила CRT */
+        --scan: 0.16; /* сила сканлайнов */
+        --chroma: 0.35; /* сила хромы */
       }
 
-      .footer {
-        margin-top: 14px;
-        color: var(--muted);
-        font-size: 12px;
-        text-align: center;
-        opacity: 0.9;
-      }
-
-      /* subtle glitch text */
-      .glitch {
-        position: relative;
-        display: inline-block;
-      }
-      .glitch::before,
-      .glitch::after {
-        content: attr(data-text);
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        overflow: hidden;
-        opacity: 0.28;
+      .crt::before {
+        content: "";
+        position: fixed;
+        inset: 0;
         pointer-events: none;
+        z-index: 2;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, var(--scan)) 0px,
+          rgba(255, 255, 255, 0) 1px,
+          rgba(0, 0, 0, 0) 3px,
+          rgba(0, 0, 0, var(--scan)) 4px
+        );
+        mix-blend-mode: overlay;
+        opacity: 0.22;
+        transform: translateZ(0);
       }
-      .glitch::before {
-        transform: translate(1px, 0);
-        clip-path: inset(0 0 60% 0);
+
+      .crt::after {
+        content: "";
+        position: fixed;
+        inset: -2px;
+        pointer-events: none;
+        z-index: 2;
+        background:
+          radial-gradient(
+            1200px 700px at 50% 35%,
+            rgba(255, 255, 255, 0.06),
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 500px at 60% 60%,
+            rgba(255, 60, 60, 0.06),
+            transparent 60%
+          ),
+          linear-gradient(
+            90deg,
+            rgba(255, 0, 0, var(--chroma)) 0,
+            transparent 32% 68%,
+            rgba(0, 128, 255, var(--chroma)) 100%
+          );
+        opacity: 0.12;
+        filter: blur(1px);
+        mix-blend-mode: screen;
       }
-      .glitch::after {
-        transform: translate(-1px, 0);
-        clip-path: inset(60% 0 0 0);
+
+      @keyframes flicker {
+        0% {
+          opacity: 0.55;
+        }
+        5% {
+          opacity: 0.75;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        15% {
+          opacity: 0.85;
+        }
+        20% {
+          opacity: 0.58;
+        }
+        30% {
+          opacity: 0.8;
+        }
+        45% {
+          opacity: 0.62;
+        }
+        60% {
+          opacity: 0.9;
+        }
+        75% {
+          opacity: 0.55;
+        }
+        100% {
+          opacity: 0.72;
+        }
+      }
+      .flicker {
+        animation: flicker 6.5s infinite;
+      }
+
+      /* ====== Crosshair cursor ====== */
+      body {
+        cursor: crosshair;
+      }
+      .ping {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 60, 60, 0.9);
+        box-shadow: 0 0 18px rgba(255, 60, 60, 0.35);
+        pointer-events: none;
+        z-index: 20;
+        transform: translate(-50%, -50%);
+      }
+      .ping::after {
+        content: "";
+        position: absolute;
+        inset: -16px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 60, 60, 0.35);
+      }
+
+      /* ====== Loot drop card ====== */
+      .loot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 60, 60, 0.22);
+        background: rgba(0, 0, 0, 0.28);
+      }
+      .loot b {
+        font-size: 14px;
+        letter-spacing: 0.3px;
+      }
+      .loot small {
+        color: var(--muted);
+      }
+      .rarity {
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .r-common {
+        border-color: rgba(148, 163, 184, 0.45);
+      }
+      .r-rare {
+        border-color: rgba(59, 130, 246, 0.55);
+      }
+      .r-epic {
+        border-color: rgba(168, 85, 247, 0.55);
+      }
+      .r-legendary {
+        border-color: rgba(245, 158, 11, 0.55);
       }
     </style>
   </head>
 
   <body>
+    <!-- INTRO -->
+    <div id="intro">
+      <div id="introCard">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+          "
+        >
+          <b style="letter-spacing: 0.8px">TERMINAL</b>
+          <span style="opacity: 0.7; font-size: 12px"
+            >secure channel • meepo-protocol</span
+          >
+        </div>
+
+        <pre id="introLog"></pre>
+
+        <button
+          id="introBtn"
+          class="btn primary"
+          style="width: 100%; justify-content: center"
+        >
+          ▶️ Запустить протокол
+        </button>
+
+        <div
+          style="
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 12px;
+            text-align: center;
+          "
+        >
+          (если звук не играет — это нормально, браузер блокирует автозапуск)
+        </div>
+      </div>
+    </div>
+
     <div class="fog"></div>
     <canvas id="stars"></canvas>
+    <div class="vignette"></div>
 
     <div class="wrap">
       <header>
@@ -515,46 +764,36 @@
         </div>
 
         <div class="controls">
-          <button class="btn primary" id="btnConfetti">
-            ✨ Спамить конфетти
-          </button>
           <button class="btn" id="btnSound">🔊 Звук: выкл</button>
-          <button class="btn" id="btnCopy">📋 Скопировать тост</button>
         </div>
       </header>
 
       <main>
         <!-- LEFT -->
         <section class="card">
-          <div class="hero">
-            <div class="big glitch" data-text="С ДНЁМ РОЖДЕНИЯ!">
-              С ДНЁМ РОЖДЕНИЯ!
-            </div>
-            <h2 id="friendName">[Макс]</h2>
-            <p class="sub">
-              Сегодня ты — как Миппо: один, но всегда с командой. И пусть жизнь
-              даёт только хорошие руны 💎
-            </p>
-
-            <div class="pillrow">
-              <span class="pill">+карма</span>
-              <span class="pill">+мемы</span>
-              <span class="pill">+MMR по жизни</span>
-              <span class="pill">без лоу-приорити</span>
+          <div class="splash">
+            <div class="splashTop">
+              <div class="rankPill" id="profilePill">PROFILE: —</div>
+              <div class="rankPill">ROLE: MEEPO ENJOYER</div>
             </div>
 
-            <img
-              class="meepo"
-              src="assets/meepo.png"
-              alt="Meepo"
-              onerror="this.style.display = 'none'"
-            />
+            <div class="splashBottom">
+              <h2>С ДНЁМ РОЖДЕНИЯ</h2>
+              <p>
+                Сегодня без бустов. Только микро, тайминги и “свои” рядом.
+                Открой вкладки справа — там задания и код.
+              </p>
+
+              <div class="smallBtnRow">
+                <button class="btn primary" id="btnStartQuest">
+                  Начать квест
+                </button>
+                <button class="btn" id="btnSkipIntro">Пропустить интро</button>
+              </div>
+            </div>
           </div>
 
-          <div
-            class="panel active"
-            style="display: block; padding: 0 16px 16px"
-          >
+          <div class="panel active" style="display: block; padding: 16px">
             <div class="box">
               <h3>🎁 Твоё «задание на др»</h3>
               <p>
@@ -564,10 +803,10 @@
               </p>
             </div>
             <div class="footer">
-              P.S. Нажми клавиши <span class="kbd">M</span>
-              <span class="kbd">E</span> <span class="kbd">E</span>
-              <span class="kbd">P</span> <span class="kbd">O</span> по очереди
-              😈
+              P.S. Нажми клавиши
+              <span class="kbd">M</span> <span class="kbd">E</span>
+              <span class="kbd">E</span> <span class="kbd">P</span>
+              <span class="kbd">O</span> по очереди 😈
             </div>
           </div>
         </section>
@@ -575,73 +814,52 @@
         <!-- RIGHT -->
         <section class="card">
           <div class="tabs">
-            <div class="tab active" data-tab="wish">Поздравление</div>
-            <div class="tab" data-tab="series">Сериальные отсылки</div>
-            <div class="tab" data-tab="game">Мини-игра</div>
-            <div class="tab" data-tab="secret">Секретный код</div>
+            <div class="tab active" data-tab="wish">Patch notes</div>
+            <div class="tab" data-tab="series">GoT / сериалы</div>
+            <div class="tab" data-tab="game">Hard quiz</div>
+            <div class="tab" data-tab="secret">Код</div>
           </div>
 
           <div class="panel active" id="wish">
-            <div class="grid2">
-              <div class="box">
-                <h3>🧠 Ум</h3>
-                <p>
-                  Пусть мозг работает как идеальный драфт: быстро, точно и без
-                  “почему мы пикнули это?”
-                </p>
-              </div>
-              <div class="box">
-                <h3>❤️ Здоровье</h3>
-                <p>
-                  Чтобы HP всегда было фулл, а реген приходил вовремя — без
-                  токсичных дебаффов.
-                </p>
-              </div>
-              <div class="box">
-                <h3>💰 Удача</h3>
-                <p>
-                  Пусть лут в жизни падает легендарный, а “рандом” всегда на
-                  твоей стороне.
-                </p>
-              </div>
-              <div class="box">
-                <h3>🔥 Драйв</h3>
-                <p>
-                  Чтобы каждый год был как лучший сезон сериала — без провальных
-                  серий.
-                </p>
-              </div>
+            <div class="box">
+              <h3>Patch Notes: Макс v+1</h3>
+              <p>
+                + стабильное микро<br />
+                + меньше тильта<br />
+                + больше нормальных людей рядом<br />
+                + “изи катка” не только в доте
+              </p>
             </div>
+
             <div style="margin-top: 12px" class="box">
-              <h3>Финальный тост</h3>
+              <h3>Тост</h3>
               <p id="toastText">
-                За тебя! Пусть в жизни будет меньше “гг вп” и больше “изи катка”
-                — и чтобы рядом всегда были свои люди. 🥂
+                За тебя. Чтобы в жизни было меньше “гг вп” и больше моментов,
+                когда всё сложилось.
               </p>
             </div>
           </div>
 
           <div class="panel" id="series">
             <div class="box">
-              <h3>🎬 Режим «Сериал-машина»</h3>
+              <h3>🎬 Пасхалки (не для детей)</h3>
               <p>
-                Тут спрятаны отсылки к любимому:
-                <b>Dexter</b>, <b>Stranger Things</b>, <b>Game of Thrones</b>,
-                <b>The Sopranos</b>. Найди 4 пасхалки — и ты получишь подсказку.
+                Dexter / Stranger Things / Game of Thrones / Sopranos. Найди 4
+                пасхалки — получишь часть кода.
               </p>
             </div>
 
             <div class="grid2" style="margin-top: 12px">
               <div class="box" id="egg1">
                 <h3>🩸 “Tonight’s the night…”</h3>
-                <p>Если понял — жми сюда. (осторожно, «тёмный пассажир»)</p>
+                <p>Если понял — жми сюда.</p>
               </div>
               <div class="box" id="egg2">
-                <h3>🧇 “Дайте уже вафли…”</h3>
+                <h3>🧇 “Где вафли?”</h3>
                 <p>Ты знаешь, о ком речь. Нажми.</p>
               </div>
               <div class="box" id="egg3">
-                <h3>🐉 “Зима близко”</h3>
+                <h3>🐉 “Winter is Coming”</h3>
                 <p>И подарки тоже. Жми.</p>
               </div>
               <div class="box" id="egg4">
@@ -652,34 +870,91 @@
 
             <div style="margin-top: 12px" class="box">
               <h3>Подсказка</h3>
-              <p id="eggHint">Найди все 4 пасхалки, чтобы увидеть подсказку…</p>
+              <p id="eggHint">Найдено: 0/4</p>
             </div>
           </div>
 
           <div class="panel" id="game">
             <div class="box">
-              <h3>🎯 Мини-игра: «Найди настоящего Миппо»</h3>
+              <h3>Hard Quiz: Dota × GoT</h3>
               <p>
-                В сетке 3×3 спрятан “настоящий” Миппо. У тебя 6 попыток.
-                Победишь — получишь часть секретного кода.
+                10 вопросов. Таймер. Ошибки стоят очков. Набери <b>95+</b> —
+                получишь часть кода.
               </p>
             </div>
 
             <div class="gameRow" style="margin-top: 12px">
-              <div class="board" id="board"></div>
+              <div class="box" style="flex: 1; min-width: 300px">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                    align-items: center;
+                  "
+                >
+                  <div class="stat" style="margin: 0; flex: 1">
+                    <span>Вопрос</span><b id="qNum">—</b>
+                  </div>
+                  <div class="stat" style="margin: 0; flex: 1">
+                    <span>Очки</span><b id="qScore">0</b>
+                  </div>
+                  <div class="stat" style="margin: 0; flex: 1">
+                    <span>Время</span><b id="qTime">—</b>
+                  </div>
+                </div>
+
+                <div style="margin-top: 12px">
+                  <div
+                    id="qText"
+                    style="font-size: 16px; font-weight: 900; line-height: 1.35"
+                  >
+                    Нажми “Старт”, чтобы начать.
+                  </div>
+                  <div
+                    id="qMeta"
+                    style="
+                      margin-top: 6px;
+                      color: var(--muted);
+                      font-size: 13px;
+                    "
+                  ></div>
+                </div>
+
+                <div
+                  id="qAnswers"
+                  style="margin-top: 12px; display: grid; gap: 10px"
+                ></div>
+
+                <div
+                  style="
+                    margin-top: 12px;
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <button class="btn primary" id="qStart">▶ Старт</button>
+                  <button class="btn" id="qHard">Hard mode: выкл</button>
+                  <button class="btn" id="qReset">↺ Сброс</button>
+                </div>
+
+                <div style="margin-top: 12px" class="box">
+                  <h3>Статус</h3>
+                  <p id="qStatus" style="margin: 0; color: var(--muted)">
+                    Подсказка: hard mode короче таймер и больнее штрафы.
+                  </p>
+                </div>
+              </div>
+
               <div class="hud">
+                <div class="stat"><span>Порог</span><b>95</b></div>
                 <div class="stat">
-                  <span>Попыток осталось</span><b id="tries">6</b>
+                  <span>Награда</span><b id="qReward">???</b>
                 </div>
-                <div class="stat">
-                  <span>Статус</span><b id="status">Ищи!</b>
-                </div>
-                <div class="stat">
-                  <span>Награда</span><b id="reward">???</b>
-                </div>
-                <button class="btn primary" id="btnReset">
-                  🔁 Сбросить игру
-                </button>
+                <div class="stat"><span>Серия</span><b id="qStreak">0</b></div>
+
                 <p
                   style="
                     color: var(--muted);
@@ -688,9 +963,7 @@
                     line-height: 1.45;
                   "
                 >
-                  Подсказка: настоящий Миппо любит
-                  <span class="kbd">копаться</span> не только в земле, но и в
-                  секретах 😄
+                  Горячие клавиши: <span class="kbd">1-4</span> — ответы
                 </p>
               </div>
             </div>
@@ -700,9 +973,8 @@
             <div class="box">
               <h3>🔐 Финальная дверь</h3>
               <p>
-                Введи код, который ты соберёшь из пасхалок + мини-игры + клавиш
-                MEEPO. Если всё верно — получишь финальную фразу для следующей
-                папки.
+                Собери код из: пасхалок + квиза + клавиш MEEPO. Потом введи
+                сюда.
               </p>
             </div>
 
@@ -722,14 +994,6 @@
                 Жду код…
               </p>
             </div>
-
-            <div style="margin-top: 12px" class="box">
-              <h3>Если хочешь усложнить</h3>
-              <p>
-                Этот код можно сделать “ключом” к следующей папке: назови
-                следующую папку ровно этим кодом 😉
-              </p>
-            </div>
           </div>
         </section>
       </main>
@@ -747,13 +1011,11 @@
     <script>
       // ====== CONFIG ======
       const FRIEND_NAME = "Макс (сірун)";
-      // Итоговая фраза, которую он должен получить (для следующей папки / следующей загадки)
-      const NEXT_FOLDER_PHRASE = "NEXT: SIRUN-1MMR-NOBOOST"; // поменяй как хочешь
+      const NEXT_FOLDER_PHRASE = "NEXT: SIRUN-1MMR-NOBOOST";
 
-      // Составные части кода (будут открываться по ходу)
-      const PART_FROM_EGGS = "DEXST"; // после 4 пасхалок
-      const PART_FROM_GAME = "RUNE"; // после победы в мини-игре
-      const PART_FROM_KEYS = "MEEPO"; // после ввода последовательности клавиш
+      const PART_FROM_EGGS = "DEXST";
+      const PART_FROM_GAME = "RUNE";
+      const PART_FROM_KEYS = "MEEPO";
       const FINAL_CODE = (
         PART_FROM_EGGS +
         "-" +
@@ -778,8 +1040,8 @@
         );
       }
 
-      // ====== Init name ======
-      $("#friendName").textContent = FRIEND_NAME;
+      // Profile pill
+      $("#profilePill").textContent = "PROFILE: " + FRIEND_NAME;
 
       // ====== Tabs ======
       $$(".tab").forEach((tab) => {
@@ -792,24 +1054,9 @@
         });
       });
 
-      // ====== Copy toast ======
-      $("#btnCopy").addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(
-            $("#toastText").textContent.trim(),
-          );
-          toast("Скопировано ✅", "Теперь можно торжественно произнести!");
-        } catch {
-          toast(
-            "Не вышло 😅",
-            "Браузер запретил копирование. Скопируй вручную.",
-          );
-        }
-      });
-
       // ====== Sound toggle ======
       let soundOn = false;
-      $("#btnSound").addEventListener("click", async () => {
+      $("#btnSound")?.addEventListener("click", async () => {
         const a = $("#bgm");
         try {
           if (!soundOn) {
@@ -829,49 +1076,9 @@
         } catch {
           toast(
             "Автозапуск запрещён",
-            "Нажми ещё раз или включи звук после клика по странице.",
+            "Нажми ещё раз после клика по странице.",
           );
         }
-      });
-
-      // ====== Confetti (simple) ======
-      function confettiBurst() {
-        const n = 120;
-        for (let i = 0; i < n; i++) {
-          const s = document.createElement("span");
-          s.style.position = "fixed";
-          s.style.left = Math.random() * 100 + "vw";
-          s.style.top = "-10px";
-          s.style.width = "8px";
-          s.style.height = "14px";
-          s.style.borderRadius = "2px";
-          s.style.background = `hsla(${Math.random() * 360}, 90%, 70%, .95)`;
-          s.style.zIndex = 10;
-          s.style.transform = `rotate(${Math.random() * 180}deg)`;
-          s.style.boxShadow = "0 10px 30px rgba(0,0,0,.25)";
-          document.body.appendChild(s);
-
-          const fall = 140 + Math.random() * 220;
-          const drift = (Math.random() * 2 - 1) * 120;
-          const dur = 1300 + Math.random() * 900;
-
-          s.animate(
-            [
-              { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
-              {
-                transform: `translate(${drift}px, ${fall}vh) rotate(${360 + Math.random() * 360}deg)`,
-                opacity: 0.95,
-              },
-            ],
-            { duration: dur, easing: "cubic-bezier(.2,.7,.2,1)" },
-          );
-
-          setTimeout(() => s.remove(), dur + 50);
-        }
-      }
-      $("#btnConfetti").addEventListener("click", () => {
-        confettiBurst();
-        toast("Бум! ✨", "Конфетти в твою честь.");
       });
 
       // ====== Eggs ======
@@ -882,130 +1089,387 @@
         egg3: "GoT: корона — это ответственность 👑",
         egg4: "Sopranos: семья — это всё 🤝",
       };
+
       Object.keys(eggs).forEach((id) => {
-        $("#" + id).style.cursor = "pointer";
-        $("#" + id).addEventListener("click", () => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.cursor = "pointer";
+        el.addEventListener("click", () => {
           eggs[id] = true;
-          toast("Пасхалка найдена ✅", eggLines[id]);
-          $("#" + id).style.borderColor = "rgba(52,211,153,.35)";
-          $("#" + id).style.background = "rgba(52,211,153,.08)";
-          const done = Object.values(eggs).every(Boolean);
-          if (done) {
-            $("#eggHint").innerHTML =
-              `Все пасхалки найдены! Часть кода: <b>${PART_FROM_EGGS}</b>`;
-            toast("Комбо! 🔥", `Ты открыл часть кода: ${PART_FROM_EGGS}`);
-            maybeUnlockFinal();
-          } else {
-            const count = Object.values(eggs).filter(Boolean).length;
-            $("#eggHint").textContent = `Найдено: ${count}/4. Продолжай охоту…`;
-          }
+          toast("Пасхалка ✅", eggLines[id]);
+          el.style.borderColor = "rgba(52,211,153,.35)";
+          el.style.background = "rgba(52,211,153,.08)";
+          const count = Object.values(eggs).filter(Boolean).length;
+          const done = count === 4;
+          $("#eggHint").innerHTML = done
+            ? `Все пасхалки найдены! Часть кода: <b>${PART_FROM_EGGS}</b>`
+            : `Найдено: ${count}/4`;
+          if (done) maybeUnlockFinal();
         });
       });
 
-      // ====== Mini-game ======
-      const board = $("#board");
-      let target = 0;
-      let triesLeft = 6;
-      let gameWon = false;
+      // ====== Quiz ======
+      let quizHard = false;
+      let quizStarted = false;
+      let quizIdx = 0;
+      let quizScore = 0;
+      let quizStreak = 0;
+      let quizTimer = null;
+      let timeLeft = 0;
+      let answered = false;
 
-      function buildBoard() {
-        board.innerHTML = "";
-        for (let i = 0; i < 9; i++) {
-          const c = document.createElement("div");
-          c.className = "cell";
-          c.dataset.i = i;
-          c.textContent = "❓";
-          c.addEventListener("click", onPick);
-          board.appendChild(c);
+      const PASS_SCORE = 95;
+      const QUIZ_REWARD = PART_FROM_GAME;
+
+      const questionsBase = [
+        {
+          tag: "DOTA",
+          q: "Earthshaker: какой скилл создаёт непроходимую стену (terrain)?",
+          meta: "классика",
+          a: ["Aftershock", "Fissure", "Enchant Totem", "Echo Slam"],
+          c: 1,
+        },
+        {
+          tag: "DOTA",
+          q: "Aftershock по факту — это…",
+          meta: "эффект",
+          a: [
+            "Замедление атаки",
+            "Мини-стан + урон вокруг при касте",
+            "Крит",
+            "Снижение брони",
+          ],
+          c: 1,
+        },
+        {
+          tag: "DOTA",
+          q: "Sniper: что гарантированно замедляет по области?",
+          meta: "без проков",
+          a: ["Headshot", "Take Aim", "Shrapnel", "Assassinate"],
+          c: 2,
+        },
+        {
+          tag: "DOTA",
+          q: "Meepo: если умирает один клон — что происходит?",
+          meta: "база",
+          a: ["Ничего", "Умирают все", "Сбрасываются предметы", "Теряют ману"],
+          c: 1,
+        },
+        {
+          tag: "GOT",
+          q: "Девиз дома Старков:",
+          meta: "база",
+          a: [
+            "Fire and Blood",
+            "Winter is Coming",
+            "Hear Me Roar",
+            "Ours is the Fury",
+          ],
+          c: 1,
+        },
+        {
+          tag: "GOT",
+          q: "Кто сказал: “Chaos is a ladder” ?",
+          meta: "цитата",
+          a: ["Тирион", "Петир Бейлиш", "Варис", "Тайвин"],
+          c: 1,
+        },
+        {
+          tag: "GOT",
+          q: "Городская стража Королевской Гавани:",
+          meta: "не Kingsguard",
+          a: ["Gold Cloaks", "Kingsguard", "Night’s Watch", "Unsullied"],
+          c: 0,
+        },
+        {
+          tag: "GOT",
+          q: "Кого прозвали Kingslayer?",
+          meta: "мгновенно",
+          a: ["Джейме", "Джон", "Робб", "Станнис"],
+          c: 0,
+        },
+        {
+          tag: "DOTA",
+          q: "Shaker: зачем Blink для лучших Echo?",
+          meta: "позиционка",
+          a: ["Даёт ману", "Макс целей в радиусе", "Снижает КД", "Дает броню"],
+          c: 1,
+        },
+        {
+          tag: "GOT",
+          q: "Кто убил Короля Ночи в сериале?",
+          meta: "именно сериал",
+          a: ["Джон", "Арья", "Дейенерис", "Бран"],
+          c: 1,
+        },
+      ];
+
+      const questionsHard = [
+        {
+          tag: "DOTA•HARD",
+          q: "Meepo: если один клон в Hex — остальные…",
+          meta: "ловушка",
+          a: ["Тоже в Hex", "Могут двигаться", "Умирают", "Теряют ману"],
+          c: 1,
+        },
+        {
+          tag: "GOT•HARD",
+          q: "Как назывался меч Джона Сноу?",
+          meta: "валирийская сталь",
+          a: ["Ice", "Longclaw", "Widow's Wail", "Heartsbane"],
+          c: 1,
+        },
+      ];
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      let quizQuestions = [];
+
+      const elQNum = $("#qNum");
+      const elQScore = $("#qScore");
+      const elQTime = $("#qTime");
+      const elQText = $("#qText");
+      const elQMeta = $("#qMeta");
+      const elQAnswers = $("#qAnswers");
+      const elQStatus = $("#qStatus");
+      const elQReward = $("#qReward");
+      const elQStreak = $("#qStreak");
+
+      const btnStart = $("#qStart");
+      const btnHard = $("#qHard");
+      const btnReset = $("#qReset");
+
+      function setHard(on) {
+        quizHard = on;
+        if (btnHard)
+          btnHard.textContent = "Hard mode: " + (quizHard ? "вкл" : "выкл");
+        if (elQStatus)
+          elQStatus.textContent = quizHard
+            ? "Hard mode активен. Таймер короче, штрафы выше."
+            : "Обычный режим.";
+      }
+
+      function resetQuiz() {
+        clearInterval(quizTimer);
+        quizTimer = null;
+        quizStarted = false;
+        quizIdx = 0;
+        quizScore = 0;
+        quizStreak = 0;
+        answered = false;
+
+        if (elQScore) elQScore.textContent = "0";
+        if (elQStreak) elQStreak.textContent = "0";
+        if (elQReward) elQReward.textContent = "???";
+        if (elQNum) elQNum.textContent = "—";
+        if (elQTime) elQTime.textContent = "—";
+        if (elQText) elQText.textContent = "Нажми “Старт”, чтобы начать.";
+        if (elQMeta) elQMeta.textContent = "";
+        if (elQAnswers) elQAnswers.innerHTML = "";
+
+        if (btnStart) {
+          btnStart.disabled = false;
+          btnStart.textContent = "▶ Старт";
         }
       }
 
-      function resetGame() {
-        target = Math.floor(Math.random() * 9);
-        triesLeft = 6;
-        gameWon = false;
-        $("#tries").textContent = triesLeft;
-        $("#status").textContent = "Ищи!";
-        $("#reward").textContent = "???";
-        buildBoard();
+      function startQuiz() {
+        quizQuestions = shuffle(
+          questionsBase.concat(quizHard ? questionsHard : []),
+        ).slice(0, 10);
+        quizStarted = true;
+        quizIdx = 0;
+        quizScore = 0;
+        quizStreak = 0;
+        answered = false;
+
+        if (btnStart) {
+          btnStart.disabled = true;
+          btnStart.textContent = "Идёт…";
+        }
+        nextQuestion();
       }
 
-      function onPick(e) {
-        if (gameWon) return;
-        const cell = e.currentTarget;
-        const i = Number(cell.dataset.i);
-        if (cell.classList.contains("good") || cell.classList.contains("bad"))
+      function tickQuizTimer() {
+        timeLeft--;
+        if (elQTime) elQTime.textContent = timeLeft + "s";
+        if (timeLeft <= 0) {
+          clearInterval(quizTimer);
+          quizTimer = null;
+          applyAnswer(-1);
+        }
+      }
+
+      function renderAnswers(qObj) {
+        if (!elQAnswers) return;
+        elQAnswers.innerHTML = "";
+        qObj.a.forEach((txt, idx) => {
+          const b = document.createElement("button");
+          b.className = "btn";
+          b.style.justifyContent = "flex-start";
+          b.textContent = idx + 1 + ". " + txt;
+          b.addEventListener("click", () => applyAnswer(idx));
+          elQAnswers.appendChild(b);
+        });
+      }
+
+      function nextQuestion() {
+        clearInterval(quizTimer);
+        quizTimer = null;
+        answered = false;
+
+        if (quizIdx >= quizQuestions.length) {
+          finishQuiz();
           return;
-
-        if (i === target) {
-          cell.textContent = "🧙‍♂️";
-          cell.classList.add("good");
-          $("#status").textContent = "Победа!";
-          $("#reward").innerHTML = `<b>${PART_FROM_GAME}</b>`;
-          toast("Победа 🏆", `Часть кода: ${PART_FROM_GAME}`);
-          gameWon = true;
-          maybeUnlockFinal();
-          confettiBurst();
-        } else {
-          cell.textContent = "🪨";
-          cell.classList.add("bad");
-          triesLeft--;
-          $("#tries").textContent = triesLeft;
-          $("#status").textContent =
-            triesLeft > 0 ? "Мимо. Ещё попытка!" : "Проигрыш :(";
-          if (triesLeft <= 0) {
-            toast("GG 😅", "Сбрось игру и попробуй ещё раз.");
-          }
         }
+
+        const qObj = quizQuestions[quizIdx];
+        if (elQNum) elQNum.textContent = quizIdx + 1 + "/10 • " + qObj.tag;
+        if (elQText) elQText.textContent = qObj.q;
+        if (elQMeta) elQMeta.textContent = qObj.meta ? "↳ " + qObj.meta : "";
+
+        renderAnswers(qObj);
+
+        timeLeft = quizHard ? 10 : 14;
+        if (elQTime) elQTime.textContent = timeLeft + "s";
+        quizTimer = setInterval(tickQuizTimer, 1000);
       }
 
-      $("#btnReset").addEventListener("click", resetGame);
-      resetGame();
+      function applyAnswer(pickIdx) {
+        if (answered) return;
+        answered = true;
+
+        clearInterval(quizTimer);
+        quizTimer = null;
+
+        const qObj = quizQuestions[quizIdx];
+        const isCorrect = pickIdx === qObj.c;
+
+        const base = quizHard ? 14 : 12;
+        const penalty = quizHard ? 12 : 9;
+
+        if (isCorrect) {
+          quizStreak++;
+          const bonus = Math.min(quizStreak, 5);
+          quizScore += base + bonus;
+          if (elQStatus)
+            elQStatus.textContent = `Верно. Серия: ${quizStreak}. +${base + bonus}`;
+        } else {
+          quizStreak = 0;
+          quizScore -= penalty;
+          if (elQStatus)
+            elQStatus.textContent =
+              pickIdx === -1
+                ? `Время вышло. -${penalty}`
+                : `Неверно. -${penalty}`;
+        }
+
+        if (elQStreak) elQStreak.textContent = String(quizStreak);
+        if (elQScore) elQScore.textContent = String(quizScore);
+
+        const buttons = elQAnswers
+          ? Array.from(elQAnswers.querySelectorAll("button"))
+          : [];
+        buttons.forEach((b, idx) => {
+          b.disabled = true;
+          if (idx === qObj.c) b.classList.add("primary");
+          if (idx === pickIdx && !isCorrect)
+            b.style.borderColor = "rgba(251,113,133,.45)";
+        });
+
+        setTimeout(() => {
+          quizIdx++;
+          nextQuestion();
+        }, 650);
+      }
+
+      function finishQuiz() {
+        if (btnStart) {
+          btnStart.disabled = false;
+          btnStart.textContent = "▶ Старт";
+        }
+        if (elQTime) elQTime.textContent = "—";
+
+        if (quizScore >= PASS_SCORE) {
+          if (elQReward) elQReward.innerHTML = `<b>${QUIZ_REWARD}</b>`;
+          if (elQStatus)
+            elQStatus.innerHTML = `Прошёл. Очки: <b>${quizScore}</b>. Часть кода: <b>${QUIZ_REWARD}</b>`;
+          toast("Ок, ты шаришь", `Награда: ${QUIZ_REWARD}`);
+          maybeUnlockFinal();
+        } else {
+          if (elQReward) elQReward.textContent = "???";
+          if (elQStatus)
+            elQStatus.innerHTML = `Не дотянул. Очки: <b>${quizScore}</b>. Порог: <b>${PASS_SCORE}</b>.`;
+          toast("Мимо порога", "Ещё раз. В hard mode больнее.");
+        }
+
+        quizStarted = false;
+      }
+
+      btnStart?.addEventListener("click", startQuiz);
+      btnReset?.addEventListener("click", resetQuiz);
+      btnHard?.addEventListener("click", () => setHard(!quizHard));
+
+      window.addEventListener("keydown", (ev) => {
+        if (!document.getElementById("game")?.classList.contains("active"))
+          return;
+        if (!quizStarted) return;
+        const k = ev.key;
+        if (k >= "1" && k <= "4") applyAnswer(Number(k) - 1);
+      });
+
+      setHard(false);
+      resetQuiz();
 
       // ====== Key sequence MEEPO ======
       const seq = ["m", "e", "e", "p", "o"];
-      let idx = 0;
+      let seqIdx = 0;
       let keysUnlocked = false;
 
       window.addEventListener("keydown", (ev) => {
         const k = (ev.key || "").toLowerCase();
-        if (k === seq[idx]) {
-          idx++;
-          if (idx === seq.length) {
-            idx = 0;
+        if (k === seq[seqIdx]) {
+          seqIdx++;
+          if (seqIdx === seq.length) {
+            seqIdx = 0;
             keysUnlocked = true;
             toast("Секрет найден 👀", `Часть кода: ${PART_FROM_KEYS}`);
             maybeUnlockFinal();
           }
         } else {
-          idx = 0;
+          seqIdx = 0;
         }
       });
 
       // ====== Secret check ======
-      $("#btnCheck").addEventListener("click", () => {
-        const v = ($("#codeInput").value || "").trim().toUpperCase();
+      $("#btnCheck")?.addEventListener("click", () => {
+        const v = ($("#codeInput")?.value || "").trim().toUpperCase();
         if (!v) {
           $("#finalResult").textContent = "Введи код 🙂";
           return;
         }
         if (v === FINAL_CODE) {
           $("#finalResult").innerHTML =
-            `✅ Верно! Финальная фраза для следующей папки: <b>${NEXT_FOLDER_PHRASE}</b>`;
-          confettiBurst();
+            `✅ Верно! Финальная фраза: <b>${NEXT_FOLDER_PHRASE}</b>`;
           toast("Дверь открыта 🔓", "Финальная фраза готова!");
         } else {
           $("#finalResult").textContent =
             "❌ Не то. Собери код из всех частей.";
-          toast("Почти…", "Проверь: пасхалки + игра + клавиши MEEPO.");
+          toast("Почти…", "Пасхалки + квиз + клавиши MEEPO.");
         }
       });
 
       function maybeUnlockFinal() {
-        // Просто подсказка, когда всё собрано
         const eggsDone = Object.values(eggs).every(Boolean);
-        if (eggsDone && gameWon && keysUnlocked) {
-          toast("Код собран ✅", `Теперь введи: ${FINAL_CODE}`);
+        const gameDone = ($("#qReward")?.textContent || "").trim() !== "???";
+        if (eggsDone && gameDone && keysUnlocked) {
+          toast("Код собран ✅", `Введи: ${FINAL_CODE}`);
         }
       }
 
@@ -1015,6 +1479,7 @@
       let W = 0,
         H = 0,
         stars = [];
+
       function resize() {
         W = canvas.width = window.innerWidth * devicePixelRatio;
         H = canvas.height = window.innerHeight * devicePixelRatio;
@@ -1031,7 +1496,7 @@
       window.addEventListener("resize", resize);
       resize();
 
-      function tick() {
+      function tickStars() {
         ctx.clearRect(0, 0, W, H);
         for (const s of stars) {
           s.y += s.v;
@@ -1046,19 +1511,229 @@
           ctx.fillStyle = "white";
           ctx.fill();
         }
-        requestAnimationFrame(tick);
+        requestAnimationFrame(tickStars);
       }
-      tick();
+      tickStars();
 
-      // Small welcome
+      // ====== Intro terminal ======
+      const intro = document.getElementById("intro");
+      const introBtn = document.getElementById("introBtn");
+      const introLog = document.getElementById("introLog");
+
+      function logLine(t) {
+        introLog.textContent += t + "\n";
+        introLog.scrollTop = introLog.scrollHeight;
+      }
+
+      introBtn?.addEventListener("click", async () => {
+        introBtn.disabled = true;
+        introBtn.textContent = "⏳ Выполняется…";
+        introLog.textContent = "";
+
+        const lines = [
+          "[BOOT] initializing…",
+          "[AUTH] user: sirun",
+          "[SCAN] searching for clones…",
+          "[SCAN] meepo detected x4",
+          "[PING] earthshaker signal: OK",
+          "[PING] sniper scope: OK",
+          "[CHECK] MMR status: 1 (legendary)",
+          "[RESULT] ACCESS GRANTED ✅",
+          "",
+          "Welcome, Max. Happy Birthday 🎂",
+        ];
+
+        for (const l of lines) {
+          logLine(l);
+          await new Promise((r) => setTimeout(r, 240 + Math.random() * 160));
+        }
+
+        try {
+          await document.getElementById("bgm")?.play();
+          soundOn = true;
+          $("#btnSound").textContent = "🔊 Звук: вкл";
+        } catch {}
+
+        intro.style.opacity = "0";
+        intro.style.transition = "opacity .25s ease";
+        setTimeout(() => intro.remove(), 280);
+
+        toast("Доступ открыт 🔓", "Открывай вкладки — там пасхалки и квиз.");
+      });
+
+      // Skip intro button (left panel)
+      document.getElementById("btnSkipIntro")?.addEventListener("click", () => {
+        document.getElementById("intro")?.remove();
+        toast("Ок", "Интро пропущено.");
+      });
+
+      // Start quest button (open quiz tab)
+      document
+        .getElementById("btnStartQuest")
+        ?.addEventListener("click", () => {
+          document.querySelector('.tab[data-tab="game"]')?.click();
+          toast("Квест активирован", "Мини-игра справа. Собирай части кода.");
+        });
+
+      // ====== Floating Meepo clones (safe) ======
+      function spawnClone() {
+        const img = new Image();
+        img.src = "assets/meepo.png";
+        img.alt = "";
+        img.decoding = "async";
+
+        img.onload = () => {
+          img.style.position = "fixed";
+          img.style.left = Math.random() * 100 + "vw";
+          img.style.top = 105 + Math.random() * 25 + "vh";
+          img.style.width = 56 + Math.random() * 72 + "px";
+          img.style.opacity = "0.10";
+          img.style.filter = "drop-shadow(0 12px 25px rgba(0,0,0,.6))";
+          img.style.pointerEvents = "none";
+          img.style.zIndex = "0";
+          document.body.appendChild(img);
+
+          const drift = (Math.random() * 2 - 1) * 90;
+          const dur = 9000 + Math.random() * 5500;
+
+          img.animate(
+            [
+              {
+                transform: `translate(0,0) rotate(${Math.random() * 20 - 10}deg)`,
+              },
+              {
+                transform: `translate(${drift}px, -150vh) rotate(${Math.random() * 40 - 20}deg)`,
+              },
+            ],
+            { duration: dur, easing: "linear" },
+          );
+
+          setTimeout(() => img.remove(), dur + 60);
+        };
+
+        img.onerror = () => {};
+      }
+      setInterval(spawnClone, 1700);
+
+      // Tiny welcome toast
       setTimeout(
-        () =>
-          toast(
-            "Загрузка завершена",
-            "Открой вкладки справа — там всё самое интересное.",
-          ),
-        600,
+        () => toast("Загрузка завершена", "Жми “Запустить протокол” 👀"),
+        650,
       );
+      // ====== Click ping (game feel) ======
+      window.addEventListener("click", (e) => {
+        // не пингуем по кликам по кнопкам/инпутам, чтобы не раздражать
+        const tag = (e.target?.tagName || "").toLowerCase();
+        if (tag === "button" || tag === "input") return;
+
+        const p = document.createElement("div");
+        p.className = "ping";
+        p.style.left = e.clientX + "px";
+        p.style.top = e.clientY + "px";
+        document.body.appendChild(p);
+
+        p.animate(
+          [
+            { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+            { transform: "translate(-50%, -50%) scale(3.2)", opacity: 0 },
+          ],
+          { duration: 520, easing: "cubic-bezier(.2,.7,.2,1)" },
+        );
+        setTimeout(() => p.remove(), 560);
+      });
+
+      // ====== Loot drop on quiz win ======
+      function rollLoot() {
+        const pool = [
+          { name: "Iron Branch x1", rarity: "common", note: "микро подрастёт" },
+          { name: "Wraith Band", rarity: "rare", note: "статы + уверенность" },
+          {
+            name: "Blink Dagger",
+            rarity: "epic",
+            note: "инициация без тильта",
+          },
+          {
+            name: "Aghanim's Scepter",
+            rarity: "legendary",
+            note: "апгрейд мозга v+1",
+          },
+        ];
+        // веса: common 50, rare 28, epic 16, legendary 6
+        const r = Math.random() * 100;
+        let item = pool[0];
+        if (r > 50) item = pool[1];
+        if (r > 78) item = pool[2];
+        if (r > 94) item = pool[3];
+        return item;
+      }
+
+      function showLootDrop() {
+        const item = rollLoot();
+        const mapClass = {
+          common: "r-common",
+          rare: "r-rare",
+          epic: "r-epic",
+          legendary: "r-legendary",
+        };
+
+        // добавим карточку в панель game, под статусом
+        const statusBox = document.getElementById("qStatus")?.closest(".box");
+        if (!statusBox) return;
+
+        // удалим старый лут
+        statusBox.querySelector(".loot")?.remove();
+
+        const row = document.createElement("div");
+        row.className = "loot";
+        row.innerHTML = `
+          <div>
+            <b>LOOT DROPPED: ${item.name}</b><br/>
+            <small>${item.note}</small>
+          </div>
+          <span class="rarity ${mapClass[item.rarity]}">${item.rarity.toUpperCase()}</span>
+        `;
+        statusBox.appendChild(row);
+
+        // micro-haptic, если доступно
+        try {
+          navigator.vibrate?.(
+            item.rarity === "legendary" ? [40, 30, 60] : [25],
+          );
+        } catch {}
+
+        toast("Лут выпал 🎁", `${item.name} • ${item.rarity.toUpperCase()}`);
+      }
+
+      // Хук: вызываем лут при победе (там где quizScore >= PASS_SCORE)
+      const __oldFinishQuiz = finishQuiz;
+      finishQuiz = function () {
+        __oldFinishQuiz();
+        // если награда показалась — значит прошёл
+        const won =
+          (document.getElementById("qReward")?.textContent || "").trim() !==
+          "???";
+        if (won) showLootDrop();
+      };
+      function checkDexter() {
+        const v = document.getElementById("dexterInput").value.toLowerCase();
+
+        if (v === "dexter") {
+          toast("Найдено!", "Ты нашёл первую пасхалку");
+        } else {
+          toast("Не то", "Подумай ещё");
+        }
+      }
+      const flashlight = document.getElementById("flashlight");
+
+      document.getElementById("detectiveBtn").onclick = () => {
+        document.body.classList.add("detective-mode");
+        flashlight.style.display = "block";
+      };
+
+      document.addEventListener("mousemove", (e) => {
+        flashlight.style.left = e.clientX - 110 + "px";
+        flashlight.style.top = e.clientY - 110 + "px";
+      });
     </script>
   </body>
 </html>
